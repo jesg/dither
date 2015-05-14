@@ -3,8 +3,8 @@ require 'set'
 
 module Dither
 
-  def self.all_pairs(params, t = 2)
-    IPOG.new(params, t).run
+  def self.all_pairs(params, t = 2, opts = {})
+    IPOG.new(params, t, opts).run
   end
 end
 
