@@ -14,6 +14,19 @@ describe Dither do
     expect { Dither.all_pairs([[], []], 2) }.to raise_error('param length must be > 1')
   end
 
+  it 'can compute 2-way ipog using symbols' do
+    params = [[:a, :b, :c], [:d, :e, :f], [:h, :i]]
+    expect(Dither.all_pairs(params)).to eq([[:a, :d, :h],
+                                            [:a, :e, :i],
+                                            [:a, :f, :h],
+                                            [:b, :d, :i],
+                                            [:b, :e, :h],
+                                            [:b, :f, :i],
+                                            [:c, :d, :h],
+                                            [:c, :e, :i],
+                                            [:c, :f, :h]])
+  end
+
   it 'can compute 2-way ipog' do
     params = [(0...2).to_a, (0..3).to_a]
     expect(Dither.all_pairs(params)).to eq([
