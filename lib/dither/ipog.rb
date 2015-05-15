@@ -90,6 +90,9 @@ module Dither
     private
 
     def fill_unbound(data)
+      @bound_sets ||= []
+      return nil if @bound_sets.any? { |a| data.subset?(a) }
+
       arr = Array.new(params.length)
       data.each do |param|
         arr[param.i] = params[param.i][param.j]
@@ -102,6 +105,7 @@ module Dither
           data << Param.new(i, j)
         end
       end
+      @bound_sets << data
       return nil if violates_constraints?(data)
       arr
     end
