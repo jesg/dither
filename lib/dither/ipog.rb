@@ -1,8 +1,8 @@
 
 module Dither
   class IPOG
-    attr_reader :params, :t, :prng, :constraints
-    private :params, :t, :prng, :constraints
+    attr_reader :params, :t, :constraints
+    private :params, :t, :constraints
 
     def initialize(params, t, opts = {})
       @params = params
@@ -13,7 +13,6 @@ module Dither
                        .map { |a| a.map { |b| Param.new(*b) } }
                        .map(&:to_set)
       end
-      @prng = Random.new
       raise 't must be >= 2' if t < 2
       raise 't must be <= params.length' if t > params.length
       params.each do |param|
@@ -51,6 +50,8 @@ module Dither
 
       ts.map { |a| fill_unbound(a) }
         .delete_if(&:nil?)
+        .to_set
+        .to_a
     end
 
     def violates_constraints?(params)
@@ -96,9 +97,9 @@ module Dither
 
       arr.each_with_index do |e, i|
         if e.nil?
-          j = prng.rand(0...params[i].length)
+          j = 0
           arr[i] = params[i][j]
-          data << Param.new(i,j)
+          data << Param.new(i, j)
         end
       end
       return nil if violates_constraints?(data)
