@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dither (0.0.1)
+    dither (0.0.4)
 
 GEM
   remote: https://rubygems.org/
