@@ -80,7 +80,9 @@ module Dither
       new_elements.each { |a| new_self << a }
 
       return nil if block_given? && block.call(new_self)
-      new_self
+
+      new_elements.each { |a| self << a }
+      self
     end
   end # TestCase
 end # Dither

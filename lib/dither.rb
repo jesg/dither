@@ -11,4 +11,5 @@ end # Dither
 require 'dither/param'
 require 'dither/unbound_param'
 require 'dither/test_case'
+require 'dither/ipog_helper'
 require 'dither/ipog'

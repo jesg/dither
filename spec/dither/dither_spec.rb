@@ -27,6 +27,54 @@ describe Dither do
                                             [:c, :f, :h]])
   end
 
+  it 'can compute 3-way mipog' do
+    params = [(0...2).to_a, (0...2).to_a, (0..3).to_a]
+    expect(Dither.mipog(params, 3)).to eq([[0, 0, 0],
+                                           [1, 0, 0],
+                                           [0, 1, 0],
+                                           [1, 1, 0],
+                                           [0, 0, 1],
+                                           [1, 0, 1],
+                                           [0, 1, 1],
+                                           [1, 1, 1],
+                                           [0, 0, 2],
+                                           [1, 0, 2],
+                                           [0, 1, 2],
+                                           [1, 1, 2],
+                                           [0, 0, 3],
+                                           [1, 0, 3],
+                                           [0, 1, 3],
+                                           [1, 1, 3],
+                                          ])
+  end
+
+  it 'can compute 2-way mipog using symbols' do
+    params = [[:a, :b, :c], [:d, :e, :f], [:h, :i]]
+    expect(Dither.mipog(params)).to eq([[:a, :d, :h],
+                                        [:a, :e, :i],
+                                        [:a, :f, :h],
+                                        [:b, :d, :h],
+                                        [:b, :e, :i],
+                                        [:b, :f, :h],
+                                        [:c, :d, :h],
+                                        [:c, :e, :i],
+                                        [:c, :f, :h]])
+  end
+
+  it 'can compute 2-way mipog' do
+    params = [(0...2).to_a, (0..3).to_a]
+    expect(Dither.mipog(params)).to eq([
+                                         [0, 0],
+                                         [1, 0],
+                                         [0, 1],
+                                         [1, 1],
+                                         [0, 2],
+                                         [1, 2],
+                                         [0, 3],
+                                         [1, 3],
+                                       ])
+  end
+
   it 'can compute 2-way ipog' do
     params = [(0...2).to_a, (0..3).to_a]
     expect(Dither.all_pairs(params)).to eq([
@@ -91,8 +139,6 @@ describe Dither do
     params = [(0...2).to_a, (0...2).to_a, (0...2).to_a, (0..3).to_a]
     expect(Dither.all_pairs(params, 3,
                             :constraints => [
-                              {0 => 0,
-                               2 => 2},
                               {0 => 0,
                                1 => 1,
                                2 => 0}
