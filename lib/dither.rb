@@ -10,6 +10,7 @@ module Dither
   end
 
   def self.mipog(params, t = 2, opts = {})
+    raise Error, 'mipog does not support constraints' if opts.key?(:constraints)
     MIPOG.new(params, t, opts).run
   end
 end # Dither

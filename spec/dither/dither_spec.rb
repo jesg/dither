@@ -2,6 +2,10 @@ require File.expand_path('../../spec_helper.rb', __FILE__)
 
 describe Dither do
 
+  it 'mipog does not support constraints' do
+    expect { Dither.mipog([[1,1],[1,2]], 2, :constraints => []) }.to raise_error(Dither::Error, 'mipog does not support constraints')
+  end
+
   it 't must be >= 2' do
     expect { Dither.all_pairs([], 0) }.to raise_error(Dither::Error, 't must be >= 2')
   end
