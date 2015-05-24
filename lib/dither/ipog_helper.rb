@@ -14,10 +14,10 @@ module Dither
                        .map(&:to_set)
       end
 
-      raise 't must be >= 2' if t < 2
-      raise 't must be <= params.length' if t > params.length
+      raise Dither::Error, 't must be >= 2' if t < 2
+      raise Dither::Error, 't must be <= params.length' if t > params.length
       params.each do |param|
-        raise 'param length must be > 1' if param.length < 2
+        raise Dither::Error, 'param length must be > 1' if param.length < 2
       end
     end
 
