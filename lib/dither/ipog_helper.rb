@@ -86,8 +86,9 @@ module Dither
         a = a.product(b)
       end
 
-      products.map(&:flatten)
+      result = products.map(&:flatten)
         .map { |a| TestCase.create(params, unbound_param_pool, a) }
+      result
     end
 
     def comb_i(param_i)
@@ -98,7 +99,7 @@ module Dither
       result = []
       values.each do |a|
         result += a[1..-1]
-                 .inject((0...params[a[0]].length).map { |b| params[0][b] }) { |p, i| p.product((0...params[i].length).to_a.map { |b| params[i][b] }) }
+                 .inject((0...params[a[0]].length).map { |b| params[a[0]][b] }) { |p, i| p.product((0...params[i].length).to_a.map { |c| params[i][c] }) }
                  .map(&:flatten)
                  .map { |a| TestCase.create(params, unbound_param_pool, a) }
       end
