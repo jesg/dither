@@ -3,6 +3,8 @@ require 'set'
 
 module Dither
 
+  class Error < StandardError; end
+
   def self.all_pairs(params, t = 2, opts = {})
     IPOG.new(params, t, opts).run
   end
