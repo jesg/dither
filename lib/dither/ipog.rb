@@ -49,9 +49,10 @@ module Dither
         end
       end
 
-      test_set.map { |a| fill_unbound(a) }
+      @test_set = test_set.map { |a| fill_unbound(a) }
         .delete_if(&:nil?)
         .to_a
+      @test_set
     end
   end # IPOG
 end # Dither
