@@ -54,9 +54,10 @@ module Dither
         .each_with_index do |arr, a|
         first, second = arr
 
-        next if (first == second) || second.nil?
         if first.nil? && second.nil?
           new_elements << unbound_param_pool[a]
+        elsif (first == second) || second.nil?
+          next
         elsif first.nil?
           new_elements << bound_param_pool[a][second]
         else
@@ -69,7 +70,10 @@ module Dither
 
       return nil if block_given? && block.call(new_self)
 
-      new_elements.each { |a| self << a }
+      new_elements.each do |a|
+        self.delete(unbound_param_pool[a.i]) unless a.unbound?
+        self << a
+      end
       self
     end
   end # TestCase
