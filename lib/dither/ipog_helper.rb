@@ -103,7 +103,7 @@ module Dither
                  .map(&:flatten)
                  .map { |a| TestCase.create(params, unbound_param_pool, a) }
       end
-      result
+      result.to_set
     end
 
 
