@@ -46,18 +46,6 @@ module Dither
       arr
     end
 
-    def self.from_array(arr)
-      test_case = TestCase.new
-      arr.each_with_index do |i, e|
-        if e.nil?
-          test_case << unbound_param_pool[i]
-        else
-          test_case << bound_param_pool[i][e]
-        end
-      end
-      test_case
-    end
-
     # return nil if there is a conflict
     # return self if no conflict
     def merge_without_conflict(i, test_case, &block)
