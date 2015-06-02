@@ -21,3 +21,7 @@ require 'dither/test_case'
 require 'dither/ipog_helper'
 require 'dither/ipog'
 require 'dither/mipog'
+
+if RUBY_PLATFORM =~ /java/
+  require 'dither/java_ext'
+end
