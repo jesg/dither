@@ -19,6 +19,13 @@ Gem::Specification.new do |s|
   s.add_development_dependency "coveralls"
 
   s.files         = `git ls-files`.split("\n")
+
+  if RUBY_PLATFORM =~ /java/
+    s.platform = "java"
+    # compile dither-java on jdk 7
+    s.files << "lib/dither.jar"
+  end
+
   s.test_files    = `git ls-files -- {test,spec}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]

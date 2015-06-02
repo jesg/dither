@@ -54,7 +54,7 @@ describe Dither do
 
   it 'can compute 2-way mipog using symbols' do
     params = [[:a, :b, :c], [:d, :e, :f], [:h, :i]]
-    expect(Dither.mipog(params)).to eq([[:a, :d, :h],
+    expect(Dither.mipog(params).to_set).to eq([[:a, :d, :h],
                                         [:a, :e, :i],
                                         [:a, :f, :h],
                                         [:b, :d, :i],
@@ -62,7 +62,7 @@ describe Dither do
                                         [:b, :f, :i],
                                         [:c, :d, :h],
                                         [:c, :e, :i],
-                                        [:c, :f, :h]])
+                                        [:c, :f, :h]].to_set)
   end
 
   it 'can compute 2-way mipog' do
@@ -95,7 +95,7 @@ describe Dither do
 
   it 'can compute 3-way ipog' do
     params = [(0...2).to_a, (0...2).to_a, (0..3).to_a]
-    expect(Dither.all_pairs(params, 3)).to eq([[0, 0, 0],
+    expect(Dither.all_pairs(params, 3).to_set).to eq([[0, 0, 0],
                                                [1, 0, 0],
                                                [0, 1, 0],
                                                [1, 1, 0],
@@ -111,7 +111,7 @@ describe Dither do
                                                [1, 0, 3],
                                                [0, 1, 3],
                                                [1, 1, 3],
-                                              ])
+                                              ].to_set)
   end
 
   it 'can compute 3-way ipog with constraints' do
@@ -123,7 +123,7 @@ describe Dither do
                               {0 => 0,
                                1 => 1,
                                2 => 0}
-                            ])).to eq([[0, 0, 0],
+                            ]).to_set).to eq([[0, 0, 0],
                                        [1, 0, 0],
                                        [1, 1, 0],
                                        [0, 0, 1],
@@ -136,7 +136,7 @@ describe Dither do
                                        [1, 0, 3],
                                        [0, 1, 3],
                                        [1, 1, 3],
-                                      ])
+                                      ].to_set)
   end
 
   it 'another 3-way ipog with constraints' do
@@ -146,7 +146,7 @@ describe Dither do
                               {0 => 0,
                                1 => 1,
                                2 => 0}
-                            ])).to eq([[0, 0, 0, 0],
+                            ]).to_set).to eq([[0, 0, 0, 0],
                                        [1, 1, 0, 0],
                                        [1, 0, 1, 0],
                                        [0, 1, 1, 0],
@@ -163,6 +163,6 @@ describe Dither do
                                        [1, 0, 1, 3],
                                        [0, 1, 1, 3],
                                        [0, 0, 0, 1],
-                                       [0, 1, 1, 1]])
+                                       [0, 1, 1, 1]].to_set)
   end
 end
