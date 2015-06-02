@@ -64,8 +64,8 @@ module Dither
         test_case.delete(current_param)
       end
 
-      test_case << params[i][current_max_j]
       return nil if violates_constraints?(test_case)
+      test_case << params[i][current_max_j]
 
       current_matches
     end
@@ -127,6 +127,7 @@ module Dither
             next
           else
             arr[i] = orig_param[j]
+            break
           end
         end
         return nil if arr[i].nil?
