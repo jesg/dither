@@ -52,4 +52,6 @@ results.each { |a| puts "#{a}" }
 * Send me a pull request. Bonus points for topic branches
 
 # Copyright
+includes [dither-java](https://github.com/jesg/dither-java) Apache License, Version 2.0
+
 Copyright (c) 2015 Jason Gowan See LICENSE for details.
