@@ -5,13 +5,25 @@ module Dither
 
   class Error < StandardError; end
 
+  DEFUALT_OPTS = {
+    :t => 2
+  }
+
+  # deprecated
   def self.all_pairs(params, t = 2, opts = {})
-    IPOG.new(params, t, opts).run
+    opts[:t] = t
+    IPOG.new(params, opts).run
+  end
+
+  def self.ipog(params, opts = {})
+    opts = DEFUALT_OPTS.dup.merge(opts)
+    IPOG.new(params, opts).run
   end
 
   def self.mipog(params, t = 2, opts = {})
     raise Error, 'mipog does not support constraints' if opts.key?(:constraints)
-    MIPOG.new(params, t, opts).run
+    opts[:t] = t
+    MIPOG.new(params, opts).run
   end
 end # Dither
 

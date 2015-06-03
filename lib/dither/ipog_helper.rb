@@ -5,17 +5,17 @@ module Dither
     attr_reader :params, :t, :constraints, :test_set, :orig_params, :unbound_param_pool
     private :params, :t, :constraints, :test_set, :orig_params, :unbound_param_pool
 
-    def initialize(params, t, opts = {})
+    def initialize(params, opts = {})
       init_params(params)
-      @t = t
+      @t = opts[:t]
       unless opts[:constraints].nil?
         @constraints = opts[:constraints].map(&:to_a)
                        .map { |a| a.map { |b| @params[@map_to_orig_index.key(b[0])][b[1]] } }
                        .map(&:to_set)
       end
 
-      raise Dither::Error, 't must be >= 2' if t < 2
-      raise Dither::Error, 't must be <= params.length' if t > params.length
+      raise Dither::Error, 't must be >= 2' if opts[:t] < 2
+      raise Dither::Error, 't must be <= params.length' if opts[:t] > params.length
       params.each do |param|
         raise Dither::Error, 'param length must be > 1' if param.length < 2
       end

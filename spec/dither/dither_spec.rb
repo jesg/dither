@@ -7,20 +7,20 @@ describe Dither do
   end
 
   it 't must be >= 2' do
-    expect { Dither.all_pairs([], 0) }.to raise_error(Dither::Error, 't must be >= 2')
+    expect { Dither.ipog([], :t => 0) }.to raise_error(Dither::Error, 't must be >= 2')
   end
 
   it 't must be <= params.length' do
-    expect { Dither.all_pairs([(0...3).to_a], 4) }.to raise_error(Dither::Error,'t must be <= params.length')
+    expect { Dither.ipog([(0...3).to_a], :t => 4) }.to raise_error(Dither::Error,'t must be <= params.length')
   end
 
   it 'param length must be > 1' do
-    expect { Dither.all_pairs([[], []], 2) }.to raise_error(Dither::Error,'param length must be > 1')
+    expect { Dither.ipog([[], []], :t => 2) }.to raise_error(Dither::Error,'param length must be > 1')
   end
 
   it 'can compute 2-way ipog using symbols' do
     params = [[:a, :b, :c], [:d, :e, :f], [:h, :i]]
-    expect(Dither.all_pairs(params)).to eq([[:a, :d, :h],
+    expect(Dither.ipog(params)).to eq([[:a, :d, :h],
                                             [:a, :e, :i],
                                             [:a, :f, :h],
                                             [:b, :d, :i],
@@ -81,7 +81,7 @@ describe Dither do
 
   it 'can compute 2-way ipog' do
     params = [(0...2).to_a, (0..3).to_a]
-    expect(Dither.all_pairs(params)).to eq([
+    expect(Dither.ipog(params)).to eq([
                                              [0, 0],
                                              [1, 0],
                                              [0, 1],
@@ -95,7 +95,7 @@ describe Dither do
 
   it 'can compute 3-way ipog' do
     params = [(0...2).to_a, (0...2).to_a, (0..3).to_a]
-    expect(Dither.all_pairs(params, 3).to_set).to eq([[0, 0, 0],
+    expect(Dither.ipog(params, :t => 3).to_set).to eq([[0, 0, 0],
                                                [1, 0, 0],
                                                [0, 1, 0],
                                                [1, 1, 0],
@@ -116,7 +116,7 @@ describe Dither do
 
   it 'can compute 3-way ipog with constraints' do
     params = [(0...2).to_a, (0...2).to_a, (0..3).to_a]
-    expect(Dither.all_pairs(params, 3,
+    expect(Dither.ipog(params, :t => 3,
                             :constraints => [
                               {0 => 0,
                                2 => 2},
@@ -141,7 +141,7 @@ describe Dither do
 
   it 'another 3-way ipog with constraints' do
     params = [(0...2).to_a, (0...2).to_a, (0...2).to_a, (0..3).to_a]
-    expect(Dither.all_pairs(params, 3,
+    expect(Dither.ipog(params, :t => 3,
                             :constraints => [
                               {0 => 0,
                                1 => 1,

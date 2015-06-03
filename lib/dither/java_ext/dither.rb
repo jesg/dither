@@ -1,10 +1,11 @@
 
 module Dither
 
-  def self.all_pairs(params, t = 2, opts = {})
+  def self.ipog(params, opts = {})
+    opts = DEFUALT_OPTS.dup.merge(opts)
     constraints = constraints_to_java(params.length, opts[:constraints])
     com.github.jesg.dither.Dither.ipog(
-      t.to_java(:int),
+      opts[:t].to_java(:int),
       params.map(&:to_java).to_java,
       constraints).to_a
   rescue com.github.jesg.dither.DitherError => e
@@ -20,7 +21,6 @@ module Dither
       new_constraint = Array.new(param_length)
       constraint.each do |k, v|
         new_constraint[k] = v
-        puts "#{k} => #{v}"
       end
       result << new_constraint
     end
