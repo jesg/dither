@@ -7,9 +7,9 @@ Use 2-Way IPOG
 ```ruby
 require 'dither'
 
-results = Dither.all_pairs([[true, false],
-                            [:cat, :dog, :mouse],
-                            (0...3).to_a])
+results = Dither.ipog([[true, false],
+                      [:cat, :dog, :mouse],
+                      (0...3).to_a])
 
 results.each { |a| puts "#{a}" }
 
@@ -29,10 +29,10 @@ Use 3-Way IPOG
 ```ruby
 require 'dither'
 
-results = Dither.all_pairs([[true, false],
-                            [true, false],
-                            [:cat, :dog, :mouse],
-                            (0...5).to_a], 3)
+results = Dither.ipog([[true, false],
+                       [true, false],
+                       [:cat, :dog, :mouse],
+                       (0...5).to_a], :t => 3)
 
 results.each { |a| puts "#{a}" }
 
