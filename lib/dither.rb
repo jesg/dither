@@ -23,5 +23,8 @@ require 'dither/ipog'
 require 'dither/mipog'
 
 if RUBY_PLATFORM =~ /java/
-  require 'dither/java_ext'
+  require 'java'
+  require 'dither.jar'
+
+  require 'dither/java_ext/dither'
 end
