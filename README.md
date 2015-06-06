@@ -3,42 +3,31 @@ Collection of combinatorial test generation strategies.
 
 # Usage
 
-Use 2-Way IPOG
 ```ruby
 require 'dither'
 
-results = Dither.ipog([[true, false],
-                      [:cat, :dog, :mouse],
-                      (0...3).to_a])
+# 2-way
+Dither.ipog([[true, false],
+             [:cat, :dog, :mouse],
+             (0...3).to_a])
+# 3-way
+Dither.ipog([[true, false],
+             [true, false],
+             [:cat, :dog, :mouse],
+             (0...5).to_a],
+            :t => 3)
 
-results.each { |a| puts "#{a}" }
+# 3-way with constraints
+Dither.ipog([[true, false],
+             [true, false],
+             [:cat, :dog, :mouse],
+             (0...5).to_a],
+            :t => 3,
+            :constraints => [
+              { 1 => 0, 2 => 0 }, # exclude true and cat
+              { 1 => 0, 2 => 1, 3 => 4 }, # exclude true :dog 4 combinations
+            ])
 
-# output
-[true,  :cat, 0]
-[true,  :dog, 1]
-[true,  :mouse, 2]
-[false, :cat, 0]
-[false, :dog, 1]
-[false, :mouse, 2]
-[true,  :cat, 0]
-[true,  :dog, 1]
-[true,  :mouse, 2]
-```
-
-Use 3-Way IPOG
-```ruby
-require 'dither'
-
-results = Dither.ipog([[true, false],
-                       [true, false],
-                       [:cat, :dog, :mouse],
-                       (0...5).to_a], :t => 3)
-
-results.each { |a| puts "#{a}" }
-
-# output
-[true, true, :cat, 0]
-...
 ```
 
 # Note on Patches/Pull Requests
