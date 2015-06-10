@@ -7,7 +7,8 @@ module Dither
     com.github.jesg.dither.Dither.ipog(
       opts[:t].to_java(:int),
       params.map(&:to_java).to_java,
-      constraints).to_a
+      constraints,
+      (opts[:previously_tested] || []).map(&:to_java).to_java).to_a
   rescue com.github.jesg.dither.DitherError => e
     raise Dither::Error.new(e.message)
   end
