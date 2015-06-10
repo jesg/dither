@@ -117,13 +117,13 @@ describe Dither do
   it 'can compute 3-way ipog with constraints' do
     params = [(0...2).to_a, (0...2).to_a, (0..3).to_a]
     expect(Dither.ipog(params, :t => 3,
-                            :constraints => [
-                              {0 => 0,
-                               2 => 2},
-                              {0 => 0,
-                               1 => 1,
-                               2 => 0}
-                            ]).to_set).to eq([[0, 0, 0],
+                       :constraints => [
+                         {0 => 0,
+                          2 => 2},
+                         {0 => 0,
+                          1 => 1,
+                          2 => 0}],
+                        :previously_tested => [[0, 0, 0]]).to_set).to eq([
                                        [1, 0, 0],
                                        [1, 1, 0],
                                        [0, 0, 1],
