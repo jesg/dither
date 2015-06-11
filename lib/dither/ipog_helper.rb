@@ -2,11 +2,11 @@
 
 module Dither
   module IPOGHelper
-    attr_reader :params, :t, :constraints, :test_set, :orig_params, :unbound_param_pool
-    private :params, :t, :constraints, :test_set, :orig_params, :unbound_param_pool
+    attr_reader :params, :t, :constraints, :test_set, :orig_params, :unbound_param_pool, :tested
+    private :params, :t, :constraints, :test_set, :orig_params, :unbound_param_pool, :tested
 
     def initialize(params, opts = {})
-      init_params(params)
+      init_params(params, (opts[:previously_tested] || []))
       @t = opts[:t]
       unless opts[:constraints].nil?
         @constraints = opts[:constraints].map(&:to_a)
@@ -21,24 +21,40 @@ module Dither
       end
     end
 
-    def init_params(user_params)
+    def init_params(user_params, previously_tested)
       tmp = []
       @input_params = user_params
       user_params.each_with_index { |e, i| tmp << [i, e] }
       @orig_params = tmp.sort_by { |a| a[1].length }
                      .reverse!
 
+      orig_param_map = {}
       @map_to_orig_index = {}
       @orig_params.each_with_index do |e, i|
         @map_to_orig_index[i] = e[0]
+        orig_param_map[e[0]] = {}
       end
 
       @params = []
       @unbound_param_pool = []
       orig_params.each_with_index do |e, i|
-        @params << (0...e[1].length).map { |j| Param.new(i, j) }
+        @params << (0...e[1].length).map do |j|
+          local_param = Param.new(i, j)
+          orig_param_map[e[0]][e[1][j]] = local_param
+          local_param
+        end
         @unbound_param_pool << UnboundParam.new(i)
       end
+
+      @tested = []
+      previously_tested.each do |a|
+        local_params = []
+        a.each_with_index do |e, i|
+          local_params << orig_param_map[i][e]
+        end
+        @tested << TestCase.create(params, unbound_param_pool, local_params)
+      end
+
       params
     end
 
@@ -88,7 +104,7 @@ module Dither
 
       result = products.map(&:flatten)
         .map { |a| TestCase.create(params, unbound_param_pool, a) }
-      result
+      result.reject { |a| tested?(a) }
     end
 
     def comb_i(param_i)
@@ -101,11 +117,14 @@ module Dither
         result += a[1..-1]
                  .inject((0...params[a[0]].length).map { |b| params[a[0]][b] }) { |p, i| p.product((0...params[i].length).to_a.map { |c| params[i][c] }) }
                  .map(&:flatten)
-                 .map { |a| TestCase.create(params, unbound_param_pool, a) }
+                 .map { |b| TestCase.create(params, unbound_param_pool, b) }
       end
-      result.to_set
+      result.reject { |a| tested?(a) }.to_set
     end
 
+    def tested?(test_case)
+      @tested.any? { |a| test_case.subset?(a) }
+    end
 
     def fill_unbound(data)
       arr = Array.new(params.length)
@@ -134,6 +153,7 @@ module Dither
       end
 
       return nil if violates_constraints?(data)
+      return nil if tested?(data)
 
       arr
     end

@@ -17,7 +17,7 @@ Dither.ipog([[true, false],
              (0...5).to_a],
             :t => 3)
 
-# 3-way with constraints
+# 3-way with constraints and previously tested cases
 Dither.ipog([[true, false],
              [true, false],
              [:cat, :dog, :mouse],
@@ -26,7 +26,8 @@ Dither.ipog([[true, false],
             :constraints => [
               { 1 => 0, 2 => 0 }, # exclude true and cat
               { 1 => 0, 2 => 1, 3 => 4 }, # exclude true :dog 4 combinations
-            ])
+            ],
+			:previously_tested => [[true, true, :cat, 0]])
 
 ```
 
