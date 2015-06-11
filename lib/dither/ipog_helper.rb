@@ -104,7 +104,7 @@ module Dither
 
       result = products.map(&:flatten)
         .map { |a| TestCase.create(params, unbound_param_pool, a) }
-      result
+      result.reject { |a| tested?(a) }
     end
 
     def comb_i(param_i)
