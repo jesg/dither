@@ -33,6 +33,7 @@ require 'dither/test_case'
 require 'dither/ipog_helper'
 require 'dither/ipog'
 require 'dither/mipog'
+require 'dither/chinese_postman_problem'
 
 if RUBY_PLATFORM =~ /java/
   require 'java'
