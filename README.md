@@ -3,6 +3,7 @@ Collection of combinatorial test generation strategies.
 
 # Usage
 
+## Pairwise Testing
 ```ruby
 require 'dither'
 
@@ -30,6 +31,49 @@ Dither.ipog([[true, false],
 			:previously_tested => [[true, true, :cat, 0]])
 
 ```
+
+## Graph Models (Experimental)
+```ruby
+raw_graph = {
+      :origin => 0,
+      :edges => [
+        {
+          :name => :a,
+          :src_vertex => 0,
+          :dst_vertex => 1,
+        },
+        {
+          :name => :b,
+          :src_vertex => 0,
+          :dst_vertex => 2,
+        },
+        {
+          :name => :c,
+          :src_vertex => 1,
+          :dst_vertex => 2,
+        },
+        {
+          :name => :d,
+          :src_vertex => 1,
+          :dst_vertex => 3,
+        },
+        {
+          :name => :e,
+          :src_vertex => 2,
+          :dst_vertex => 3,
+        },
+        {
+          :name => :f,
+          :src_vertex => 3,
+          :dst_vertex => 0,
+        }
+      ]
+    }
+
+# shortest path to cover all edges at least once
+Dither.all_edges(raw_graph)
+```
+
 
 # Note on Patches/Pull Requests
 
