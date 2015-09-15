@@ -34,6 +34,7 @@ require 'dither/ipog_helper'
 require 'dither/ipog'
 require 'dither/mipog'
 require 'dither/chinese_postman_problem'
+require 'dither/ateg'
 
 if RUBY_PLATFORM =~ /java/
   require 'java'
