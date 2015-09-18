@@ -4,6 +4,7 @@ Collection of combinatorial test generation strategies.
 # Usage
 
 ## Pairwise Testing
+IPOG (In-Parameter-Order-General) is an efficient deterministic alogrithm.
 ```ruby
 require 'dither'
 
@@ -30,6 +31,25 @@ Dither.ipog([[true, false],
             ],
 			:previously_tested => [[true, true, :cat, 0]])
 
+```
+
+ATEG non-deterministic alogrithm for pairwise testing.
+```ruby
+require 'dither'
+
+# 2-way
+Dither.ateg([[true, false],
+             [:cat, :dog, :mouse],
+             (0...3).to_a])
+
+# 3-way
+Dither.ateg([[true, false],
+             [true, false],
+             [:cat, :dog, :mouse],
+             (0...5).to_a],
+            :t => 3,
+            :seed => 0 # set the seed on the random number generator
+)
 ```
 
 ## Graph Models (Experimental)
