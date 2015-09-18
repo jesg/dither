@@ -25,6 +25,11 @@ module Dither
     opts[:t] = t
     MIPOG.new(params, opts).run
   end
+
+  def self.ateg(params, opts = {})
+    opts = DEFUALT_OPTS.dup.merge(opts)
+    Ateg::Pairwise.new(params, opts).run
+  end
 end # Dither
 
 require 'dither/param'
@@ -35,6 +40,7 @@ require 'dither/ipog'
 require 'dither/mipog'
 require 'dither/chinese_postman_problem'
 require 'dither/ateg'
+require 'dither/ateg_pairwise'
 
 if RUBY_PLATFORM =~ /java/
   require 'java'

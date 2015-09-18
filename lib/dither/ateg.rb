@@ -3,10 +3,11 @@ module Dither
   module Ateg
 
     def run
+      result = []
       until stop?
         generate
         filter
-        best_fit
+        result << best_fit
       end
       result
     end
