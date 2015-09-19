@@ -48,8 +48,12 @@ Dither.ateg([[true, false],
              [:cat, :dog, :mouse],
              (0...5).to_a],
             :t => 3,
-            :seed => 0 # set the seed on the random number generator
-)
+            :seed => 0, # set the seed on the random number generator
+            :constraints => [
+              { 1 => 0, 2 => 0 }, # exclude true and cat
+              { 1 => 0, 2 => 1, 3 => 4 }, # exclude true :dog 4 combinations
+            ],
+			:previously_tested => [[true, true, :cat, 0]])
 ```
 
 ## Graph Models (Experimental)
