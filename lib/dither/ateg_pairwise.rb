@@ -13,19 +13,7 @@ module Dither
         def in_test_case?(test_case)
           self.all? { |pair| pair.j == test_case[pair.i] }
         end
-
-        alias_method :orig_method_missing, :method_missing
-
-        def method_missing(method, *args, &block)
-          if method == :cached_hash
-            orig_hash = hash
-            self.class.define_method(:cached_hash) do
-              orig_hash
-            end
-          end
-          orig_method_missing(method, *args, &block)
-        end
-      end
+      end # Pairs
 
       def initialize(params, opts = {})
 
