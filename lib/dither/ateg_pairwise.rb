@@ -32,6 +32,14 @@ module Dither
         params.each_with_index do |param, i|
           pair_cache[i] = (0...param.length).map { |j| Pair.new(i, j).freeze }
         end
+        if opts[:previously_tested]
+          opts[:constraints] = [] unless opts[:constraints]
+          opts[:previously_tested].each do |a|
+            arr = []
+            a.each_with_index { |b,i| arr << [i, b] }
+            opts[:constraints] << Hash[arr]
+          end
+        end
         @constraints = nil
 				if opts[:constraints]
 					@constraints = []
