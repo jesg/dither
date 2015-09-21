@@ -41,22 +41,22 @@ module Dither
           end
         end
         @constraints = nil
-				if opts[:constraints]
-					@constraints = []
-					opts[:constraints].each do |a|
-						constraint = a.map { |k, v| pair_cache[k][v] }
-						constraint.extend(Pairs)
-						@constraints << constraint
-					end
-				end
+        if opts[:constraints]
+          @constraints = []
+          opts[:constraints].each do |a|
+            constraint = a.map { |k, v| pair_cache[k][v] }
+            constraint.extend(Pairs)
+            @constraints << constraint
+          end
+        end
         @comb = []
         @t = opts[:t]
         (0...params.length).to_a.combination(t).each do |a|
-					car, *cdr = a.map { |b| pair_cache[b] }
-					tmp = car.product(*cdr)
-					tmp.each { |b| b.extend(Pairs) }
+          car, *cdr = a.map { |b| pair_cache[b] }
+          tmp = car.product(*cdr)
+          tmp.each { |b| b.extend(Pairs) }
           tmp.reject! { |b| constraints.any? { |c| c.all? { |d| b.include?(d)} } } if constraints
-					@comb.push(*tmp)
+          @comb.push(*tmp)
         end
       end
 
@@ -68,14 +68,14 @@ module Dither
 
       def filter
         return unless constraints
-				scratch.each_with_index do |e, i|
-					scratch[i] = nil if constraints.any? { |a| a.in_test_case?(e) }
-				end
+        scratch.each_with_index do |e, i|
+          scratch[i] = nil if constraints.any? { |a| a.in_test_case?(e) }
+        end
       end
 
       def best_fit
-				max, _ = scratch.compact
-					.map { |a| [a, comb.count { |b| b.in_test_case?(a) }] }
+        max, _ = scratch.compact
+          .map { |a| [a, comb.count { |b| b.in_test_case?(a) }] }
           .max { |a, b| a[1] <=> b[1] }
         comb.delete_if { |a| a.in_test_case?(max) }
         max
