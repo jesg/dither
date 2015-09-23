@@ -13,6 +13,19 @@ module Dither
     raise Dither::Error.new(e.message)
   end
 
+  def self.ateg(params, opts = {})
+    opts = DEFUALT_OPTS.dup.merge(opts)
+    constraints = constraints_to_java(params.length, opts[:constraints])
+    com.github.jesg.dither.Dither.ateg(
+      opts[:t].to_java(:int),
+      opts[:seed].to_java(:Integer),
+      params.map(&:to_java).to_java,
+      constraints,
+      (opts[:previously_tested] || []).map(&:to_java).to_java).to_a
+  rescue com.github.jesg.dither.DitherError => e
+    raise Dither::Error.new(e.message)
+  end
+
   private
 
   def self.constraints_to_java(param_length, constraints)
