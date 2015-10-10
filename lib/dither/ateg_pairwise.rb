@@ -1,8 +1,8 @@
 
 module Dither
-  module Ateg
+  module Aetg
     class Pairwise
-      include Ateg
+      include Aetg
 
       attr_reader :scratch, :n, :random, :t, :params, :constraints, :pair_cache, :comb
 

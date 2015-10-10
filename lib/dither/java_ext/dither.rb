@@ -13,7 +13,7 @@ module Dither
     raise Dither::Error.new(e.message)
   end
 
-  def self.ateg(params, opts = {})
+  def self.aetg(params, opts = {})
     opts = DEFUALT_OPTS.dup.merge(opts)
     constraints = constraints_to_java(params.length, opts[:constraints])
     com.github.jesg.dither.Dither.ateg(

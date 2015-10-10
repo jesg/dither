@@ -166,14 +166,15 @@ describe Dither do
                                        [0, 1, 1, 1]].to_set)
   end
 
-  it 'can run 2-way ateg' do
+  it 'can run 2-way aetg' do
     params = [(0...2).to_a, (0...2).to_a, (0...2).to_a, (0..3).to_a]
+    Dither.aetg(params)
     Dither.ateg(params)
   end
 
-  it 'can run 4-way ateg with seed' do
+  it 'can run 4-way aetg with seed' do
     params = [(0...2).to_a, (0...2).to_a, (0...2).to_a, (0..3).to_a]
-    expect(Dither.ateg(params, :t => 4, :seed => 0, :constraints => [
+    expect(Dither.aetg(params, :t => 4, :seed => 0, :constraints => [
       { 0 => 1, 1 => 1, 2 => 1, 3 => 1 },
     ], :previously_tested => [[1,1,1,2]]).length).to eq 30
   end

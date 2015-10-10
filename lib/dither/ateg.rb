@@ -1,6 +1,6 @@
 
 module Dither
-  module Ateg
+  module Aetg
 
     def run
       result = []
@@ -11,5 +11,5 @@ module Dither
       end
       result
     end
-  end # Ateg
+  end # Aetg
 end # Dither
