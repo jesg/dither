@@ -68,6 +68,9 @@ module Dither
 
       def filter
         return unless constraints
+        comb.first.each do |pair|
+          scratch[pair.i] = pair.j
+        end
         scratch.each_with_index do |e, i|
           scratch[i] = nil if constraints.any? { |a| a.in_test_case?(e) }
         end
