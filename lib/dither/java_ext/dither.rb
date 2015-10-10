@@ -16,7 +16,7 @@ module Dither
   def self.aetg(params, opts = {})
     opts = DEFUALT_OPTS.dup.merge(opts)
     constraints = constraints_to_java(params.length, opts[:constraints])
-    com.github.jesg.dither.Dither.ateg(
+    com.github.jesg.dither.Dither.aetg(
       opts[:t].to_java(:int),
       opts[:seed].to_java(:Integer),
       params.map(&:to_java).to_java,

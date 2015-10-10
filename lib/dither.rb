@@ -46,7 +46,7 @@ require 'dither/aetg_pairwise'
 
 if RUBY_PLATFORM =~ /java/
   require 'java'
-  require 'dither-0.0.4.jar'
+  require 'dither-0.1.0.jar'
 
   require 'dither/java_ext/dither'
 end
