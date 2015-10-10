@@ -33,17 +33,17 @@ Dither.ipog([[true, false],
 
 ```
 
-ATEG non-deterministic alogrithm for pairwise testing.
+AETG non-deterministic alogrithm for pairwise testing.
 ```ruby
 require 'dither'
 
 # 2-way
-Dither.ateg([[true, false],
+Dither.aetg([[true, false],
              [:cat, :dog, :mouse],
              (0...3).to_a])
 
 # 3-way
-Dither.ateg([[true, false],
+Dither.aetg([[true, false],
              [true, false],
              [:cat, :dog, :mouse],
              (0...5).to_a],
