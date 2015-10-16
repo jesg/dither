@@ -46,7 +46,8 @@ require 'dither/aetg_pairwise'
 
 if RUBY_PLATFORM =~ /java/
   require 'java'
-  require 'dither-0.1.1.jar'
+  require 'choco-solver-3.3.1-with-dependencies.jar'
+  require 'dither-0.1.2.jar'
 
   require 'dither/java_ext/dither'
 end
