@@ -98,6 +98,52 @@ raw_graph = {
 Dither.all_edges(raw_graph)
 ```
 
+Random walk on a graph.  Each edge has equal weight.
+```ruby
+raw_graph = {
+      :origin => 0,
+      :edges => [
+        {
+          :name => :a,
+          :src_vertex => 0,
+          :dst_vertex => 1,
+        },
+        {
+          :name => :b,
+          :src_vertex => 0,
+          :dst_vertex => 2,
+        },
+        {
+          :name => :c,
+          :src_vertex => 1,
+          :dst_vertex => 2,
+        },
+        {
+          :name => :d,
+          :src_vertex => 1,
+          :dst_vertex => 3,
+        },
+        {
+          :name => :e,
+          :src_vertex => 2,
+          :dst_vertex => 3,
+        },
+        {
+          :name => :f,
+          :src_vertex => 3,
+          :dst_vertex => 0,
+        }
+      ]
+    }
+
+graph = Dither::Graph.create(raw_graph)
+
+# infinite sequence of random walks
+graph.each do |path|
+  puts path.map(&:name).to_s
+end
+```
+
 
 # Note on Patches/Pull Requests
 
