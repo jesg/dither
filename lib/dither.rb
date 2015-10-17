@@ -43,6 +43,7 @@ require 'dither/mipog'
 require 'dither/chinese_postman_problem'
 require 'dither/aetg'
 require 'dither/aetg_pairwise'
+require 'dither/graph'
 
 if RUBY_PLATFORM =~ /java/
   require 'java'
