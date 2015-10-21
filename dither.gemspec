@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   if RUBY_PLATFORM =~ /java/
     s.platform = "java"
     # compile dither-java on jdk 8
-    files << "lib/dither-0.1.2.jar"
+    files << "lib/dither-0.1.3.jar"
     files << "lib/choco-solver-3.3.1-with-dependencies.jar"
   end
   s.files = files

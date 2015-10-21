@@ -48,7 +48,7 @@ require 'dither/graph'
 if RUBY_PLATFORM =~ /java/
   require 'java'
   require 'choco-solver-3.3.1-with-dependencies.jar'
-  require 'dither-0.1.2.jar'
+  require 'dither-0.1.3.jar'
 
   require 'dither/java_ext/dither'
 end
