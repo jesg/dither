@@ -14,11 +14,14 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "dither"
 
+  s.add_dependency "ffi", "~> 1.0"
   s.add_development_dependency "rspec", "~> 3.2"
   s.add_development_dependency "rake", "~> 0.9.2"
+  s.add_development_dependency "rake-compiler"
   s.add_development_dependency "coveralls"
 
   files         = `git ls-files`.split("\n")
+  s.extensions = 'ext/dither/extconf.rb'
 
   if RUBY_PLATFORM =~ /java/
     s.platform = "java"

@@ -20,15 +20,15 @@ describe Dither do
 
   it 'can compute 2-way ipog using symbols' do
     params = [[:a, :b, :c], [:d, :e, :f], [:h, :i]]
-    expect(Dither.ipog(params)).to eq([[:a, :d, :h],
-                                            [:a, :e, :i],
-                                            [:a, :f, :h],
-                                            [:b, :d, :i],
-                                            [:b, :e, :h],
-                                            [:b, :f, :i],
-                                            [:c, :d, :h],
-                                            [:c, :e, :i],
-                                            [:c, :f, :h]])
+    expect(Dither.all_pairs(params)).to eq([[:c, :f, :h],
+                                       [:b, :f, :i],
+                                       [:a, :f, :h],
+                                       [:c, :e, :i],
+                                       [:b, :e, :h],
+                                       [:a, :e, :i],
+                                       [:c, :d, :h],
+                                       [:b, :d, :i],
+                                       [:a, :d, :h]])
   end
 
   it 'can compute 3-way mipog' do
@@ -53,6 +53,14 @@ describe Dither do
   end
 
   it 'can compute 2-way mipog using symbols' do
+    a = Dither.ipog([
+      (0...4).to_a,
+      (0...4).to_a,
+      (0...4).to_a,
+      (0...4).to_a,
+    ],
+    :t => 3
+               )
     params = [[:a, :b, :c], [:d, :e, :f], [:h, :i]]
     expect(Dither.mipog(params).to_set).to eq([[:a, :d, :h],
                                         [:a, :e, :i],
@@ -90,7 +98,7 @@ describe Dither do
                                              [1, 2],
                                              [0, 3],
                                              [1, 3],
-                                           ])
+    ].reverse)
   end
 
   it 'can compute 3-way ipog' do
@@ -116,54 +124,37 @@ describe Dither do
 
   it 'can compute 3-way ipog with constraints' do
     params = [(0...2).to_a, (0...2).to_a, (0..3).to_a]
-    expect(Dither.ipog(params, :t => 3,
+    results = Dither.ipog(params, :t => 3,
                        :constraints => [
                          {0 => 0,
                           2 => 2},
                          {0 => 0,
                           1 => 1,
                           2 => 0}],
-                        :previously_tested => [[0, 0, 0]]).to_set).to eq([
-                                       [1, 0, 0],
-                                       [1, 1, 0],
-                                       [0, 0, 1],
-                                       [1, 0, 1],
-                                       [0, 1, 1],
-                                       [1, 1, 1],
-                                       [1, 0, 2],
-                                       [1, 1, 2],
-                                       [0, 0, 3],
-                                       [1, 0, 3],
-                                       [0, 1, 3],
-                                       [1, 1, 3],
-                                      ].to_set)
+                        :previously_tested => [[0, 0, 0]]
+                      )
+    results.each do |result|
+      expect(result[0] == 0 && result[1] == 1 && result[2] == 0).to be false
+    end
+    results.each do |result|
+      expect(result[0] == 0 && result[1] == 2).to be false
+    end
+    results.each do |result|
+      expect(result[0] == 0 && result[1] == 0 && result[2] == 0).to be false
+    end
   end
 
   it 'another 3-way ipog with constraints' do
     params = [(0...2).to_a, (0...2).to_a, (0...2).to_a, (0..3).to_a]
-    expect(Dither.ipog(params, :t => 3,
+    results = Dither.ipog(params, :t => 3,
                             :constraints => [
                               {0 => 0,
                                1 => 1,
                                2 => 0}
-                            ]).to_set).to eq([[0, 0, 0, 0],
-                                       [1, 1, 0, 0],
-                                       [1, 0, 1, 0],
-                                       [0, 1, 1, 0],
-                                       [1, 0, 0, 1],
-                                       [1, 1, 0, 1],
-                                       [0, 0, 1, 1],
-                                       [1, 1, 1, 1],
-                                       [0, 0, 0, 2],
-                                       [1, 1, 0, 2],
-                                       [1, 0, 1, 2],
-                                       [0, 1, 1, 2],
-                                       [0, 0, 0, 3],
-                                       [1, 1, 0, 3],
-                                       [1, 0, 1, 3],
-                                       [0, 1, 1, 3],
-                                       [0, 0, 0, 1],
-                                       [0, 1, 1, 1]].to_set)
+                            ])
+    results.each do |result|
+      expect(result[0] == 0 && result[1] == 1 && result[2] == 0).to be false
+    end
   end
 
   it 'can run 2-way aetg' do
