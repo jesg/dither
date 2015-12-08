@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "dither"
 
-  s.add_dependency "ffi", "~> 1.0"
   s.add_development_dependency "rspec", "~> 3.2"
   s.add_development_dependency "rake", "~> 0.9.2"
   s.add_development_dependency "rake-compiler"
@@ -27,8 +26,9 @@ Gem::Specification.new do |s|
     # compile dither-java on jdk 8
     files << "lib/dither-0.1.3.jar"
     files << "lib/choco-solver-3.3.1-with-dependencies.jar"
-  else
-    s.extensions = 'ext/dither/extconf.rb'
+	else
+		s.add_dependency "ffi", "~> 1.0"
+		s.extensions = 'ext/dither/extconf.rb'
   end
   s.files = files
 
