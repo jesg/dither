@@ -89,7 +89,6 @@ module Dither
   class << self; alias_method :ateg, :aetg end
 end # Dither
 
-require 'dither/api'
 require 'dither/chinese_postman_problem'
 require 'dither/aetg'
 require 'dither/aetg_pairwise'
@@ -101,4 +100,6 @@ if RUBY_PLATFORM =~ /java/
   require 'dither-0.1.3.jar'
 
   require 'dither/java_ext/dither'
+else
+  require 'dither/api'
 end
