@@ -21,13 +21,14 @@ Gem::Specification.new do |s|
   s.add_development_dependency "coveralls"
 
   files         = `git ls-files`.split("\n")
-  s.extensions = 'ext/dither/extconf.rb'
 
   if RUBY_PLATFORM =~ /java/
     s.platform = "java"
     # compile dither-java on jdk 8
     files << "lib/dither-0.1.3.jar"
     files << "lib/choco-solver-3.3.1-with-dependencies.jar"
+  else
+    s.extensions = 'ext/dither/extconf.rb'
   end
   s.files = files
 
