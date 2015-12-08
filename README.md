@@ -1,6 +1,9 @@
 # Dither
 Collection of combinatorial test generation strategies.
 
+# Requirements
+a c++ compiler is required when installing on mri.
+
 # Usage
 
 ## Pairwise Testing
