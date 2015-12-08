@@ -81,12 +81,6 @@ module Dither
     end
   end
 
-  def self.mipog(params, t = 2, opts = {})
-    raise Error, 'mipog does not support constraints' if opts.key?(:constraints)
-    opts[:t] = t
-    MIPOG.new(params, opts).run
-  end
-
   def self.aetg(params, opts = {})
     opts = DEFUALT_OPTS.dup.merge(opts)
     Aetg::Pairwise.new(params, opts).run
@@ -96,12 +90,6 @@ module Dither
 end # Dither
 
 require 'dither/api'
-require 'dither/param'
-require 'dither/unbound_param'
-require 'dither/test_case'
-require 'dither/ipog_helper'
-require 'dither/ipog'
-require 'dither/mipog'
 require 'dither/chinese_postman_problem'
 require 'dither/aetg'
 require 'dither/aetg_pairwise'
