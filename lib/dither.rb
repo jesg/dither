@@ -62,7 +62,7 @@ module Dither
         end
         arr = Array.new(params.size)
         (0...params.size).each do |i|
-          arr[i] = params[i].find(test_case[i]).first
+          arr[i] = params[i].find_index(test_case[i])
         end
         tested_scratch.write_array_of_int(arr)
         Dither::API.dither_ipog_add_previously_tested(pointer, tested_scratch, params.size)
