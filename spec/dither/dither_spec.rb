@@ -63,7 +63,7 @@ describe Dither do
   end
 
   it 'can compute 3-way ipog with constraints' do
-    params = [(0...2).to_a, (0...2).to_a, (0..3).to_a]
+    params = [[:a, :b], (0...2).to_a, (0..3).to_a]
     results = Dither.ipog(params, :t => 3,
                        :constraints => [
                          {0 => 0,
@@ -71,16 +71,16 @@ describe Dither do
                          {0 => 0,
                           1 => 1,
                           2 => 0}],
-                        :previously_tested => [[0, 0, 0]]
+                        :previously_tested => [[:a, 0, 0]]
                       )
     results.each do |result|
-      expect(result[0] == 0 && result[1] == 1 && result[2] == 0).to be false
+      expect(result[0] == :a && result[1] == 1 && result[2] == 0).to be false
     end
     results.each do |result|
-      expect(result[0] == 0 && result[1] == 2).to be false
+      expect(result[0] == :a && result[1] == 2).to be false
     end
     results.each do |result|
-      expect(result[0] == 0 && result[1] == 0 && result[2] == 0).to be false
+      expect(result[0] == :a && result[1] == 0 && result[2] == 0).to be false
     end
   end
 
