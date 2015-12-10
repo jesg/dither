@@ -5,7 +5,8 @@ require 'ffi'
 module Dither
   module API
     extend FFI::Library
-    ffi_lib %w[lib/dither.so lib/dither.dll]
+    LIB_DIR = File.expand_path('../..', __FILE__)
+    ffi_lib %W[#{LIB_DIR}/dither.so #{LIB_DIR}/dither.dll]
 
     attach_function :dither_ipog_new, [:int], :pointer
     attach_function :dither_ipog_add_parameter_int, [:pointer, :int, :pointer, :int], :void
