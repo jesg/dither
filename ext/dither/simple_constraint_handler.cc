@@ -12,7 +12,7 @@
 
 namespace dither {
 
-  SimpleConstraintHandler::SimpleConstraintHandler(std::vector<dval>& ranges, std::vector<std::vector<dval>>& pconstraints) : params(ranges) {
+  SimpleConstraintHandler::SimpleConstraintHandler(std::vector<dval>& ranges, std::vector<std::vector<dval>>& pconstraints) : params(ranges), scratch(ranges.size(), -1) {
     for(auto it = pconstraints.cbegin(); it != pconstraints.cend(); ++it) {
       std::vector<std::pair<std::size_t, dval>> constraint;
       std::size_t i = 0;
@@ -27,6 +27,14 @@ namespace dither {
   }
 
   bool SimpleConstraintHandler::violate_constraints(const dtest_case &test_case) {
+    if(violate_constraints_(test_case)) {
+      return true;
+    }
+    std::copy(test_case.cbegin(), test_case.cend(), scratch.begin());
+    return !ground(scratch);
+  }
+
+  inline bool SimpleConstraintHandler::violate_constraints_(const dtest_case &test_case) {
     for(auto constraint = constraints.cbegin(); constraint != constraints.cend(); ++constraint) {
       if(violate_constraint(test_case, *constraint)) {
         return true;
@@ -46,32 +54,14 @@ namespace dither {
   }
 
   bool SimpleConstraintHandler::violate_constraints(const std::vector<param> &test_case) {
-    for(auto constraint = constraints.cbegin(); constraint != constraints.cend(); ++constraint) {
-      if(violate_constraint(test_case, *constraint)) {
-        return true;
-      }
+    std::fill(scratch.begin(), scratch.end(), -1);
+    for(auto p : test_case) {
+      scratch[p.first] = p.second;
     }
-    return false;
-  }
-
-  inline bool SimpleConstraintHandler::violate_constraint(const std::vector<param>& test_case, const std::vector<std::pair<std::size_t, dval>>& constraint) {
-    if(test_case.size() < constraint.size()) {
-      return false;
-    }
-
-    std::size_t count = 0;
-    for(auto it = constraint.cbegin(); it != constraint.cend(); ++it) {
-      for(auto iit = test_case.cbegin(); iit != test_case.cend(); ++iit) {
-        if((*iit).first == (*it).first && (*iit).second == (*it).second) {
-          count++;
-          break;
-        }
-      }
-    }
-    if(count == constraint.size()) {
+    if(violate_constraints_(scratch)) {
       return true;
     }
-    return false;
+    return !ground(scratch);
   }
 
   bool SimpleConstraintHandler::ground(dtest_case &test_case) {
@@ -84,9 +74,6 @@ namespace dither {
         indexes.push_back(i);
       }
     }
-    if(indexes.size() == 0) {
-      return true;
-    }
     std::vector<dval> bound_values(indexes.size(), -1);
     i = 0;
 
@@ -95,7 +82,7 @@ LOOP:while(i < indexes.size()) {
        const dval max = params[indexes[i]];
        for(dval value = bound_values[i] + 1; value <= max; value++) {
          test_case[indexes[i]] = value;
-         if(violate_constraints(test_case)) {
+         if(violate_constraints_(test_case)) {
            continue;
          }
          bound_values[i] = value;
