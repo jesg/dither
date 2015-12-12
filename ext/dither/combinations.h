@@ -122,6 +122,75 @@ inline void product(
     rvi.pop_back();                   // clean ME off for next round
   }
 }
+
+inline void product3(
+    std::forward_list<dtest_case>& results,
+    std::vector<dtest_case>::const_iterator begin,
+    std::vector<dtest_case>::const_iterator end) {
+  dtest_case ranges;
+  for(auto it = begin; it != end; ++it) {
+    const dval tmp = (*it).size() - 1;
+    ranges.push_back(tmp);
+  }
+
+  dtest_case scratch(ranges.size(), 0);
+
+  const std::size_t max = ranges.size() - 1;
+  for(std::size_t i = max;;) {
+
+    if(i == max) {
+      for(dval val = 0; val <= ranges[i]; val++) {
+        results.push_front(scratch);
+        scratch[i]++;
+      }
+      scratch[i] = 0;
+      i--;
+    } else if(i == 0 && scratch[i] >= ranges[i]) {
+      return;
+    } else if(scratch[i] < ranges[i]) {
+      scratch[i]++;
+      i++;
+    } else {
+      scratch[i] = -1;
+      i--;
+    }
+  }
+}
+
+inline void product4(
+    std::forward_list<std::vector<param>>& results,
+    std::vector<std::vector<param>>& param_matrix) {
+  std::vector<int> ranges;
+  std::vector<param> scratch;
+  for(auto params : param_matrix) {
+    ranges.push_back(params.size() - 1);
+    scratch.push_back(params[0]);
+  }
+  std::vector<int> indexes(scratch.size(), 0);
+
+  const std::size_t max = ranges.size() - 1;
+  for(std::size_t i = max;;) {
+
+    if(i == max) {
+      for(std::size_t val = 0; val <= ranges[i]; val++) {
+        scratch[i] = param_matrix[i][indexes[i]];
+        results.push_front(scratch);
+        indexes[i]++;
+      }
+      indexes[i] = 0;
+      i--;
+    } else if(i == 0 && indexes[i] >= ranges[i]) {
+      return;
+    } else if(indexes[i] < ranges[i]) {
+      indexes[i]++;
+      scratch[i] = param_matrix[i][indexes[i]];
+      i++;
+    } else {
+      indexes[i] = -1;
+      i--;
+    }
+  }
+}
 }
 
 #endif
