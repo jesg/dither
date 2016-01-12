@@ -231,37 +231,31 @@ iter:
                 // remove constraint violation
                 boolean isCaseCovered = violateConstraints(testCase);
                 if(!isCaseCovered) {
-                    for (final int[] innerTestCase : testSet) {
-                        boolean match = true;
+
+match_unbound_label:
+                    for (final int[] innerTestCase : unbound) {
                         for(final Pair pair : testCase) {
                             if(innerTestCase[pair.i] != pair.j) {
-                                match = false;
-                                break;
+                                continue match_unbound_label;
                             }
                         }
-                        if(match) {
-                            isCaseCovered = true;
-                            break;
-                        }
+                        isCaseCovered = true;
+                        break;
                     }
                 }
 
                 if (!isCaseCovered) {
-                    final ListIterator<int[]> unboundIter = unbound.listIterator();
                     boolean isMerged = false;
-                    int[] innerTestCase = null;
-                    while(unboundIter.hasNext()) {
-                        innerTestCase = unboundIter.next();
+                    for(final int[] innerTestCase : unbound) {
                         // -1 => no merge, 0 perfect merge (no unbound), 1 partial merge
                         final int mergeResult = merge(k, testCase, innerTestCase);
-                        if(mergeResult == 0) {
-                            unboundIter.remove();
-                            testSet.add(innerTestCase);
+                        if(mergeResult > 0){
+                            for(final Pair localComb : testCase) {
+                                innerTestCase[localComb.i] = localComb.j;
+                            }
                             isMerged = true;
                             break;
-                        } else if(mergeResult == 1) {
-                            isMerged = true;
-                            break;
+
                         }
                     }
 
@@ -302,11 +296,6 @@ iter:
 
         if(violateConstraints(mergeScratch)) {
             return -1;
-        }
-
-        // merge
-        for(final Pair pair : pairs) {
-            testCase[pair.i] = pair.j;
         }
 
         // find unbound
