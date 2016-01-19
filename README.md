@@ -2,7 +2,7 @@
 Collection of combinatorial test generation strategies.
 
 # Requirements
-a c++ compiler is required when installing on mri.  tested on gcc 4.6 and gcc 5.3.
+a c++ compiler is required when installing on mri.  tested on gcc 4.6, gcc 5.3, and clang 3.7.
 
 # Usage
 
